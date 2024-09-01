@@ -12,6 +12,6 @@ export const queryValidateMiddleware = (schema: Joi.ObjectSchema) => {
                 }))
             })
         }
-        next ();
+       return next ();
     }
 }

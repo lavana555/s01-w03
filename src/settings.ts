@@ -3,7 +3,7 @@ config()
 
 
 export const SETTINGS = {
-        PORT: process.env.PORT || 5001,
+        PORT: process.env.PORT || 5002,
         PATH: {
             TESTING:'/testing/all-data',
             BLOGS:'/blogs',

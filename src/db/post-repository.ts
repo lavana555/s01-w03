@@ -4,7 +4,7 @@ import { blogsRepository } from "./blog-repository";
 
 export const postsRepository = {
     async create(post: PostTypes): Promise<{ error?: string; post?: PostTypes }> {
-        const blog = await blogsRepository.find(post.blogId);
+        const blog = await blogsRepository.find(post.blogId.toString());
 
         if (!blog) {
             return { error: 'Blog not found' };

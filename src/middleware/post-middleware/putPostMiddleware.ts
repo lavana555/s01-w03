@@ -13,9 +13,6 @@ export const putPostMiddleware = (schema: Joi.ObjectSchema, source: 'body' | 'pa
                 }))
             });
         }
-
-        req[source] = value;
-
-        next();
+       return next();
     };
 };

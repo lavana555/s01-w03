@@ -6,7 +6,7 @@ export const inputPostMiddleware = (schema: Joi.ObjectSchema, source: 'body' | '
 
     return (req: Request, res: Response, next: NextFunction) => {
         const { title, shortDescription, content, blogId } = req.body;
-        const validateParams = source === 'body' ? { title, shortDescription, content, blogId } : req[source]
+        const validateParams = source === 'body' ? { title, shortDescription, content, blogId } : req[source];
         const { error } = schema.validate(validateParams, { abortEarly: false });
 
         if (error) {
@@ -18,6 +18,6 @@ export const inputPostMiddleware = (schema: Joi.ObjectSchema, source: 'body' | '
             });
         }
 
-        next();
+       return next();  // Add this line
     };
 };

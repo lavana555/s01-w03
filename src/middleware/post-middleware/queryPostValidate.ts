@@ -12,11 +12,9 @@ export const queryPostValidate = (schema: Joi.ObjectSchema, source: 'body' | 'pa
                     field: err.path.join('.') || null
                 }))
             });
+        } else {
+            req[source] = value;
+            return next();
         }
-
-        // Optionally replace the original data with the validated data
-        req[source] = value;
-
-        next();
     };
 };

@@ -14,12 +14,6 @@ export const inputMiddleware = (schema: Joi.ObjectSchema, source: 'body' | 'para
                 }))
             });
         }
-
-        next();
+       return next();  // Ensure next() is called if there are no errors
     };
 };
-
-
-
-
-

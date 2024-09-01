@@ -1,5 +1,5 @@
-import { BlogTypes } from "./blog-types";
-import { db } from "./db";
+import {db} from "./db";
+import {BlogTypes} from "./blog-types";
 
 export const blogsRepository = {
     async create(input: Omit<BlogTypes, 'id'>): Promise<{ error?: string; blog?: BlogTypes }> {
@@ -10,7 +10,11 @@ export const blogsRepository = {
         try {
             db.blogs.push(newBlog);
             const createdBlog = await this.find(newBlog.id);
-            return { ...createdBlog };
+            if (createdBlog) {
+                return { blog: createdBlog };
+            } else {
+                return { error: 'Error retrieving created blog' };
+            }
         } catch (e) {
             return { error: 'Error creating blog' };
         }

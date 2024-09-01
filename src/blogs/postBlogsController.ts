@@ -7,8 +7,8 @@ export const postBlogsController = async (req: Request, res: Response) => {
     const result = await blogsRepository.create({ name, description, websiteUrl });
 
     if (result.error) {
-        return res.status(500).json({ error: result.error });
+        return res.status(400).json({ error: result.error });
     }
 
-    return res.status(201).json(result);
+    return res.status(201).json(result.blog);
 };
