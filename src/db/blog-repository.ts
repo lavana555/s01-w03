@@ -11,7 +11,8 @@ export const blogsRepository = {
             db.blogs.push(newBlog);
             const createdBlog = await this.find(newBlog.id);
             if (createdBlog) {
-                return { blog: createdBlog };
+                const {id, name, description, websiteUrl} = createdBlog;
+                return { blog: {id, name, description, websiteUrl} };
             } else {
                 return { error: 'Error retrieving created blog' };
             }
