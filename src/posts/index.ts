@@ -9,7 +9,8 @@ import {postIdSchema, postScheme} from "../schema/post";
 import {inputMiddleware} from "../middleware/blogs-middleware/inputMiddleware";
 import {queryValidateMiddleware} from "../middleware/blogs-middleware/queryValidateMiddleware";
 import {putPostMiddleware} from "../middleware/post-middleware/putPostMiddleware";
-import {queryPostValidate} from "../middleware/post-middleware/queryPostValidate"; // Assuming similar to blogs middleware
+import {queryPostValidate} from "../middleware/post-middleware/queryPostValidate";
+import {inputPostMiddleware} from "../middleware/post-middleware/inputPostMiddleware"; // Assuming similar to blogs middleware
 
 export const postsRouter = Router();
 
@@ -17,7 +18,7 @@ postsRouter.get('/', getPostsController);
 
 postsRouter.post('/',
     authMiddleware,
-    inputMiddleware(postScheme, 'body'), // Validate request body
+    inputPostMiddleware(postScheme, 'body'), // Validate request body
     createPostController
 );
 
