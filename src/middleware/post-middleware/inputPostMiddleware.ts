@@ -1,6 +1,6 @@
 import Joi from "joi";
 import {NextFunction, Request, Response} from "express";
-import {blogsRepository} from "../../db/blog-repository";
+import {blogsRepository} from "../../db/blog-db-repository";
 
 export const inputPostMiddleware = (schema: Joi.ObjectSchema, source: 'body' | 'params' | 'query' = 'body') => {
     const resStatus = source === 'params' ? 404 : 400;

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
-import {blogsRepository} from "../../db/blog-repository";
+import {blogsRepository} from "../../db/blog-db-repository";
 
 export const putPostMiddleware = (schema: Joi.ObjectSchema, source: 'body' | 'params' | 'query' = 'body') => {
     return async (req: Request, res: Response, next: NextFunction) => {

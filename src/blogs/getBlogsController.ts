@@ -1,11 +1,12 @@
 import {db} from "../db/db";
 import {Request, Response} from 'express'
+import {blogsRepository} from "../db/blog-db-repository";
 
 
 
-export const getBlogsController = (req: Request, res: Response<any>) => {
+export const getBlogsController = async (req: Request, res: Response<any>) => {
 
-    const blogs = db.blogs
+    const blogs = await blogsRepository.getAllBlogs()
 
     res
         .status(200)

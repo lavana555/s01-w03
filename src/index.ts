@@ -9,7 +9,7 @@ import {runDb} from "./db/db";
 //
 
 const startApp = async () => {
-    // await runDb()
+    await runDb()
     app.listen(SETTINGS.PORT, ()=>{
         console.log('...server started in port' + SETTINGS.PORT)
     })

@@ -1,48 +1,67 @@
-// import {VideoDBType} from './video-db-type'
+import { Collection, MongoClient } from "mongodb";
+import { SETTINGS } from "../settings";
+import { BlogTypes } from "./blog-types";
+import { PostTypes } from "./post-types";
 
-import {MongoClient} from "mongodb";
+export type DBType = {
+    videos: any[]; // Consider using VideoDBType[] if you have it defined
+    blogs: BlogTypes[];
+    posts: PostTypes[];
+};
 
-export type DBType = { // типизация базы данных (что мы будем в ней хранить)
-    videos: any[] // VideoDBType[]
-    blogs: any[] // VideoDBType[]
-    posts: any[] // VideoDBType[]
-    // some: any[]
-}
-
-export const db: DBType = { // создаём базу данных (пока это просто переменная)
+export const db: DBType = {
     videos: [],
     blogs: [],
     posts: [],
-    // some: []
-}
+};
 
-// функция для быстрой очистки/заполнения базы данных для тестов
+// Function to quickly reset or populate the database for tests
 export const setDB = (dataset?: Partial<DBType>) => {
-    if (!dataset) { // если в функцию ничего не передано - то очищаем базу данных
-        db.videos = []
-        db.blogs = []
-        db.posts = []
-        // db.some = []
-        return
-    }
+    db.videos = dataset?.videos || [];
+    db.blogs = dataset?.blogs || [];
+    db.posts = dataset?.posts || [];
+};
 
-    // если что-то передано - то заменяем старые значения новыми
-    db.videos = dataset.videos || db.videos
-    db.blogs = dataset.blogs || db.blogs
-    db.posts = dataset.posts || db.posts
-    // db.some = dataset.some || db.some
-}
+// const mongoUri = process.env.MONGO_PATH || "mongodb://localhost:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.0";
+const mongoUri = 'mongodb+srv://Cluster54168:eW1RZXBtSlda@cluster54168.nm88g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster54168'
+export const client = new MongoClient(mongoUri);
 
-const mongoUri = process.env.MONGO_PATH = "mongodb://localhost:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.0"
-export const client =new MongoClient(mongoUri);
+export const blogCollection: Collection<BlogTypes> = client.db('03-db').collection<BlogTypes>(SETTINGS.BLOG_COLLECTION_NAME);
+export const postCollection: Collection<PostTypes> = client.db('03-db').collection<PostTypes>(SETTINGS.POST_COLLECTION_NAME);
 
-export async function runDb() {
+// Function to check connection to the database and drop collections
+export const connectToDB = async (): Promise<boolean> => {
     try {
         await client.connect();
-        await client.db("blogs").command({ping:1});
-        console.log("Connected successfully to mongo server");
+        console.log('Connected to the database');
 
+        // Drop the collections before proceeding
+        await blogCollection.drop();
+        await postCollection.drop();
+
+        console.log('Dropped blogCollection and postCollection');
+        return true;
     } catch (e) {
+        console.error('Error connecting to or setting up the database', e);
+        await client.close();
+        return false;
+    }
+};
+
+// Function to run the database connection, drop collections, and ping the server
+export const runDb = async () => {
+    try {
+        await client.connect();
+
+        // Drop the collections before proceeding
+        await blogCollection.drop();
+        await postCollection.drop();
+
+        console.log('Dropped blogCollection and postCollection');
+        await client.db("blogs").command({ ping: 1 });
+        console.log("Connected successfully to MongoDB server");
+    } catch (e) {
+        console.error('Error running database', e);
         await client.close();
     }
-}
+};

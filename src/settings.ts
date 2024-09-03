@@ -9,7 +9,9 @@ export const SETTINGS = {
             BLOGS:'/blogs',
             POSTS:'/posts',
 
-        }
+        },
+    BLOG_COLLECTION_NAME: 'Blogs',
+    POST_COLLECTION_NAME: 'Posts'
 }
 
 export const ADMIN_AUTH = 'admin:qwerty'

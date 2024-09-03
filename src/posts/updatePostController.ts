@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { blogsRepository } from "../db/blog-repository";
 import { PostTypes } from '../db/post-types';
-import { postsRepository } from "../db/post-repository";
+import {blogsRepository} from "../db/blog-db-repository";
+import {postsRepository} from "../db/post-db-repository";
 
 export const updatePostController = async (req: Request, res: Response) => {
     const { id } = req.params;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import {postsRepository} from "../db/post-repository";
+import {postsRepository} from "../db/post-db-repository";
 
 export const findPostController = async (req: Request, res: Response) => {
 
